@@ -20,7 +20,7 @@ class RetrieverFactory:
     """
 
     @staticmethod
-    def mmr_retriever(vectordb=chroma_db.load_vectordb(), k: int = 3):
+    def mmr_retriever(vectordb=chroma_db.load_vectordb(), k: int = 2):
         """
         Create a Maximal Marginal Relevance (MMR) Retriever.
 
@@ -35,7 +35,7 @@ class RetrieverFactory:
 
 
     @staticmethod
-    def self_query_retriever(llm = GroqLLM.load_llm(), vectordb=chroma_db.load_vectordb(), k: int = 4):
+    def self_query_retriever(llm = GroqLLM.load_llm(), vectordb=chroma_db.load_vectordb(), k: int = 2):
         """
         Create a Self-Query Retriever that formulates queries based on user input.
 
