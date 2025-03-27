@@ -95,12 +95,12 @@ def create_tools_metadata(docs):
             metadata["last_update"] = int(metadata["last_update"])
 
         badges_section = re.search(r"Tool Badges:(.*?)Tool Description:", content, re.DOTALL)
-        if badges_section:
-            badges = re.findall(r"\n(\S.*)", badges_section.group(1))
-            if badges:
-                metadata["tool_badges"] = [badge.strip() for badge in badges if ":" not in badge]
+        metadata["tool_badges"] = ", ".join(
+            badge.strip() for badge in re.findall(r"\n(\S.*)", badges_section.group(1)) if ":" not in badge
+        ) if badges_section else ""
 
-        doc.metadata = metadata
+        doc.metadata = metadata    
+        
 
 
 def load_tools():

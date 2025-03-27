@@ -19,8 +19,6 @@ def doc_splitter(docs, chunk_size=1500, chunk_overlap=500):
         separators=["\n\n", "\n", " ", ""]
     )
 
-    chunked_docs = []
-    for doc in docs:
-        chunked_docs.extend(text_splitter.split_text(doc))
+    chunked_docs = text_splitter.split_documents(docs)
 
     return chunked_docs
