@@ -31,6 +31,7 @@ fsspec==2025.3.0
 google-auth==2.38.0
 googleapis-common-protos==1.69.2
 greenlet==3.1.1
+groq==0.20.0
 grpcio==1.71.0
 h11==0.14.0
 httpcore==1.0.7
@@ -51,6 +52,7 @@ langchain==0.3.21
 langchain-chroma==0.2.2
 langchain-community==0.3.20
 langchain-core==0.3.49
+langchain-groq==0.3.1
 langchain-huggingface==0.1.2
 langchain-text-splitters==0.3.7
 langsmith==0.3.19
