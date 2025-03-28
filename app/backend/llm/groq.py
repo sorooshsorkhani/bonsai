@@ -23,14 +23,14 @@ class GroqLLM:
     ]
 
     @staticmethod
-    def load_llm(model: str = 'llama-3.3-70b-versatile', temperature:int = 0):
+    def load_llm(model: str = 'llama-3.3-70b-versatile', temperature:int = 0, streaming:bool = True):
         """Load the model based on the provided name or use default (llama-3.3-70b-versatile)."""
         if model not in GroqLLM.GROQ_MODELS:
             available_models = ",\n".join(GroqLLM.GROQ_MODELS)  # Join available models into a string
             raise ValueError(f"Model '{model}' not found in available models. Available models are: {available_models}")
         
         # Initialize and return the selected model
-        return ChatGroq(model=model, temperature=temperature)
+        return ChatGroq(model=model, temperature=temperature, streaming=streaming)
 
 # Define the function that will be called when executing the script
 def load_and_print_models():
