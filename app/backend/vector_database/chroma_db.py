@@ -3,7 +3,7 @@
 
 import os
 import pickle
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from app.backend.embedding.hf_embedding import load_embedding
 from app.backend.document_splitter.document_splitter import doc_splitter
 

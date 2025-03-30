@@ -80,7 +80,7 @@ class RetrieverFactory:
 
 
     @staticmethod
-    def compression_retriever(embedding=load_embedding(), llm=GroqLLM.load_llm(), base_retriever):
+    def compression_retriever(embedding=load_embedding(), llm=GroqLLM.load_llm(), base_retriever=None):
         """
         Create a Contextual Compression Retriever to filter and reorder retrieved documents.
 
@@ -92,6 +92,9 @@ class RetrieverFactory:
         Returns:
         - ContextualCompressionRetriever: A retriever that enhances relevance by compressing and reordering retrieved documents.
         """
+        if base_retriever is None:
+            raise ValueError("base_retriever in compression_retriever cannot be None. Please provide a valid retriever.")
+    
         redundant_filter = EmbeddingsRedundantFilter(embeddings=embedding)
         reordering = LongContextReorder()
         llm_compressor = LLMChainExtractor.from_llm(llm)

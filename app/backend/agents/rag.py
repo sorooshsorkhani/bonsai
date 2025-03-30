@@ -1,5 +1,8 @@
 from app.backend.llm.groq import GroqLLM
 from langchain_core.output_parsers import StrOutputParser
+from typing import Annotated, Literal, Sequence
+from typing_extensions import TypedDict
+
 
 def rag(state):
     """
@@ -11,7 +14,7 @@ def rag(state):
     Returns:
          dict: The updated state with the final response
     """
-    print("---GENERATE---")
+    print("---RAG---")
     messages = state["messages"]
     question = messages[0].content
     last_message = messages[-1]

@@ -4,7 +4,8 @@ from app.backend.retrievers.retriever_factory import RetrieverFactory
 class RetrieverTool:
     """Creates and returns a retriever tool instance."""
 
-    def get_retriever(self, mmr_k: int = 2, self_query_k: int = 2):
+    @staticmethod
+    def get_retriever(mmr_k: int = 2, self_query_k: int = 2):
         """Creates and returns a retriever tool instance with default parameters."""
 
         mmr_retriever = RetrieverFactory.mmr_retriever(k=mmr_k)
