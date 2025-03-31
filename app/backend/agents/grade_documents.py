@@ -48,15 +48,17 @@ def grade_docs(state) -> Literal["rag", "rewrite"]:
 
     question = messages[0].content
     docs = last_message.content
+    print("\n\n-----\n\n", last_message, "\n\n-----\n\n")
+    print(messages, "\n\n-----\n\n")
 
     # Post-processing
-    def format_docs(docs):
-        return "\n\n".join(
-        (f"Document:\n{doc.page_content}")
-        for doc in docs
-    )
+    #def format_docs(docs):
+    #    return "\n\n".join(
+    #    (f"Document:\n{doc.page_content}")
+    #    for doc in docs
+    #)
 
-    scored_result = chain.invoke({"question": question, "context": format_docs(docs)})
+    scored_result = chain.invoke({"question": question, "context": docs})
 
     score = scored_result.binary_score
 
