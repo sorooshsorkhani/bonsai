@@ -1,10 +1,10 @@
 import pprint
 from app.backend.graph.rag_graph import create_rag_graph
 
-
 inputs = {
     "messages": [
-        ("user", "What is an EBV?"),
+        ("user", "I need a tool in BON in a Box that can help me with the study of species population."
+        "Also, whom can I contact to ask more about the tool?"),
     ]
 }
 

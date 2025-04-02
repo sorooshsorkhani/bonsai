@@ -97,8 +97,8 @@ class RetrieverFactory:
     
         redundant_filter = EmbeddingsRedundantFilter(embeddings=embedding)
         reordering = LongContextReorder()
-        llm_compressor = LLMChainExtractor.from_llm(llm)
+        #llm_compressor = LLMChainExtractor.from_llm(llm=GroqLLM.load_llm("llama3-8b-8192"))
 
-        pipeline = DocumentCompressorPipeline(transformers=[redundant_filter, reordering, llm_compressor])
+        pipeline = DocumentCompressorPipeline(transformers=[redundant_filter, reordering]) # , llm_compressor
 
         return ContextualCompressionRetriever(base_compressor=pipeline, base_retriever=base_retriever)

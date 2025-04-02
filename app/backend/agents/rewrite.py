@@ -1,7 +1,5 @@
 from app.backend.llm.groq import GroqLLM
 from langchain_core.messages import HumanMessage
-from typing import Annotated, Literal, Sequence
-from typing_extensions import TypedDict
 
 
 def rewrite(state):
@@ -10,7 +8,7 @@ def rewrite(state):
 
     Args:
         state (messages): The current state
-
+        
     Returns:
         dict: The updated state with re-phrased question
     """
@@ -22,12 +20,12 @@ def rewrite(state):
     msg = [
         HumanMessage(
             content=f""" \n 
-    Look at the input and try to reason about the underlying semantic intent / meaning. \n 
+    Look at the input and try to reason about the underlying semantic intent / meaning. Rewrite an improved question and replace the initial one.\n 
     Here is the initial question:
     \n ------- \n
     {question} 
     \n ------- \n
-    Formulate an improved question: """,
+    The improved question: """,
         )
     ]
 

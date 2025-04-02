@@ -1,5 +1,4 @@
 from app.backend.graph.rag_graph import create_rag_graph
-from IPython.display import Image
 import os
 
 rag_graph = create_rag_graph()

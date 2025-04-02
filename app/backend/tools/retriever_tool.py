@@ -1,24 +1,21 @@
-from langchain.tools.retriever import create_retriever_tool
+from langchain_core.tools import tool
 from app.backend.retrievers.retriever_factory import RetrieverFactory
-from typing import Literal
 
 
-def get_retriever(mmr_k: int = 2, self_query_k: int = 2, response_format: Literal["content", "content_and_artifact"] = "content_and_artifact"):
-    """Creates and returns a retriever tool instance with default parameters."""
+@tool(response_format="content")
+def doc_retriever(query:str):
+    """Retrieve information related to a query."""
 
-    mmr_retriever = RetrieverFactory.mmr_retriever(k=mmr_k)
-    self_query_retriever = RetrieverFactory.self_query_retriever(k=self_query_k)
+    mmr_retriever = RetrieverFactory.mmr_retriever(k=2)
+    self_query_retriever = RetrieverFactory.self_query_retriever(k=2)
 
     merger_retriever = RetrieverFactory.merger_retriever([mmr_retriever, self_query_retriever])
     final_retriever = RetrieverFactory.compression_retriever(base_retriever=merger_retriever)
 
-    description = "Search and return information about biodiversity, \
-        GEO BON, BON in a Box (BiaB) tools and BiaB pipelines. BiaB pipelines GitHub repository \
-        is for Mapping Kunming-Montreal Global Biodiversity Framework indicators and their uncertainty."
-
-    return create_retriever_tool(
-        final_retriever,
-        "retrieve_information",
-        description=description,
-        response_format=response_format
+    retrieved_docs = final_retriever.invoke(query)
+    serialized = "\n\n".join(
+        (f"Document {i+1}:\n\Metadata: {doc.metadata}\nContent: {doc.page_content}")
+        for i, doc in enumerate(retrieved_docs)
     )
+
+    return serialized

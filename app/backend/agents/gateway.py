@@ -1,7 +1,5 @@
 from app.backend.llm.groq import GroqLLM
-from app.backend.tools.retriever_tool import get_retriever
-from typing import Annotated, Literal, Sequence
-from typing_extensions import TypedDict
+from app.backend.tools.retriever_tool import doc_retriever
 
 
 def gateway(state):
@@ -11,14 +9,14 @@ def gateway(state):
 
     Args:
         state (messages): The current state
-
+        
     Returns:
         dict: The updated state with the gateway response appended to messages
     """
     print("---CALL GATEWAY---")
     messages = state["messages"]
     model = GroqLLM.load_llm()
-    gateway_model = model.bind_tools([get_retriever(mmr_k=1, self_query_k=1)])
+    gateway_model = model.bind_tools([doc_retriever])
     response = gateway_model.invoke(messages)
     # We return a list, because this will get added to the existing list
     return {"messages": [response]}

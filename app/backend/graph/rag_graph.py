@@ -1,6 +1,6 @@
 from langgraph.graph import END, StateGraph, START
 from langgraph.prebuilt import ToolNode, tools_condition
-from app.backend.tools.retriever_tool import get_retriever
+from app.backend.tools.retriever_tool import doc_retriever
 from app.backend.agents import AgentState, gateway, grade_docs, rag, rewrite
 from langgraph.graph.graph import CompiledGraph
 
@@ -11,7 +11,7 @@ def create_rag_graph() -> CompiledGraph:
 
     # Define the nodes we will cycle between
     workflow.add_node("gateway", gateway)  # agent
-    retrieve = ToolNode([get_retriever(mmr_k=1, self_query_k=1)])
+    retrieve = ToolNode([doc_retriever])
     workflow.add_node("retrieve", retrieve)  # retrieval
     workflow.add_node("rewrite", rewrite)  # Re-writing the question
     workflow.add_node(

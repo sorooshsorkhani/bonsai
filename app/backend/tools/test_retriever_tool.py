@@ -1,8 +1,8 @@
-from app.backend.tools.retriever_tool import get_retriever
+from app.backend.tools.retriever_tool import doc_retriever
 
+query = "What is an EBV?"
 
-test_retriever = get_retriever(mmr_k=1, self_query_k=1, response_format="content")
-#print(test_retriever)
+print("\n\nCustom retriever:\n\n")
+custom_retrieved_docs = doc_retriever.invoke(query)
+print(custom_retrieved_docs)
 
-retrieved_docs = test_retriever.invoke("What is an EBV?")
-print(retrieved_docs)

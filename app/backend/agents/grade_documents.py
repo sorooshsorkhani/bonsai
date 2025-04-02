@@ -1,6 +1,5 @@
 from app.backend.llm.groq import GroqLLM
-from typing import Annotated, Literal, Sequence
-from typing_extensions import TypedDict
+from typing import Literal
 from pydantic import BaseModel, Field
 from langchain_core.prompts import PromptTemplate
 
@@ -32,10 +31,10 @@ def grade_docs(state) -> Literal["rag", "rewrite"]:
 
     # Prompt
     prompt = PromptTemplate(
-        template="""You are a grader assessing relevance of a retrieved document to a user question. \n 
+        template="""You are a grader assessing relevance of retrieved documents to a user question. \n 
         Here is the retrieved documents: \n\n {context} \n\n
         Here is the user question: {question} \n
-        If the document contains keyword(s) or semantic meaning related to the user question, grade it as relevant. \n
+        If the documents contain keyword(s) or semantic meaning related to the user question, grade it as relevant. \n
         Give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the question.""",
         input_variables=["context", "question"],
     )
@@ -44,19 +43,9 @@ def grade_docs(state) -> Literal["rag", "rewrite"]:
     chain = prompt | llm_with_tool
 
     messages = state["messages"]
-    last_message = messages[-1]
-
     question = messages[0].content
+    last_message = messages[-1]
     docs = last_message.content
-    print("\n\n-----\n\n", last_message, "\n\n-----\n\n")
-    print(messages, "\n\n-----\n\n")
-
-    # Post-processing
-    #def format_docs(docs):
-    #    return "\n\n".join(
-    #    (f"Document:\n{doc.page_content}")
-    #    for doc in docs
-    #)
 
     scored_result = chain.invoke({"question": question, "context": docs})
 
