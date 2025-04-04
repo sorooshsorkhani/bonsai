@@ -14,7 +14,7 @@ def create_rag_graph() -> CompiledGraph:
     retrieve = ToolNode([doc_retriever])
     workflow.add_node("retrieve", retrieve)  # retrieval
     workflow.add_node("greetings", greet)
-    workflow.add_node("rewrite", rewrite)  # Re-writing the question
+    #workflow.add_node("rewrite", rewrite)  # Re-writing the question
     workflow.add_node("rag", rag)  # Generating a response after we know the documents are relevant
     
     # Call gateway node to decide to retrieve or not
@@ -40,7 +40,7 @@ def create_rag_graph() -> CompiledGraph:
         grade_docs,
     )
     workflow.add_edge("rag", END)
-    workflow.add_edge("rewrite", "gateway")
+    #workflow.add_edge("rewrite", "gateway")
 
     # Compile
     rag_graph = workflow.compile()
