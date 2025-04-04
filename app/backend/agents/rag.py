@@ -25,8 +25,7 @@ def rag(state):
         template="""You are an assistant, called BON AI, for question-answering tasks.\n
         Use the following pieces of retrieved documents to answer the question.\n
         The documents contain metadata and content.\n
-        If you don't know the answer, just say that you don't know.\n
-        Use three sentences maximum and keep the answer concise.\n\n
+        If you don't know the answer, just say that you don't know.\n\n
         Question: {question}\n\n
         Documents:\n\n{context}\n\n
         Answer:""",

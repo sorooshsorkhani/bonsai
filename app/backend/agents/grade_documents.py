@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 from langchain_core.prompts import PromptTemplate
 
 
-def grade_docs(state) -> Literal["rag", "rewrite"]:
+def grade_docs(state) -> Literal["rag", "greetings"]:
     """
     Determines whether the retrieved documents are relevant to the question.
 
@@ -58,4 +58,4 @@ def grade_docs(state) -> Literal["rag", "rewrite"]:
     else:
         print("---DECISION: DOCS NOT RELEVANT---")
         print(score)
-        return "rewrite"
+        return "greetings"

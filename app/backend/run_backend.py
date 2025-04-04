@@ -20,3 +20,5 @@ def stream_response(user_input):
     for msg, metadata in rag_graph.stream(inputs, stream_mode="messages"):
         if msg.content and metadata["langgraph_node"] == "rag":
             yield msg.content
+        if msg.content and metadata["langgraph_node"] == "greetings":
+            yield msg.content

@@ -2,9 +2,9 @@ import streamlit as st
 from app.backend.run_backend import stream_response  # Uses the preloaded graph
 
 # Set Streamlit Page Configuration
-st.set_page_config(page_title="BON AI", page_icon="🤖")
+st.set_page_config(page_title="BONsAI", page_icon="🌍")
 
-st.title("🤖 BON AI")
+st.title("🌍 BONsAI")
 
 # Initialize chat history
 if "messages" not in st.session_state:

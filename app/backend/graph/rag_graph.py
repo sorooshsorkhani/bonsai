@@ -1,7 +1,7 @@
 from langgraph.graph import END, StateGraph, START
 from langgraph.prebuilt import ToolNode, tools_condition
 from app.backend.tools.retriever_tool import doc_retriever
-from app.backend.agents import AgentState, gateway, grade_docs, rag, rewrite
+from app.backend.agents import AgentState, gateway, grade_docs, rag, rewrite, greet
 from langgraph.graph.graph import CompiledGraph
 
 def create_rag_graph() -> CompiledGraph:
@@ -13,10 +13,10 @@ def create_rag_graph() -> CompiledGraph:
     workflow.add_node("gateway", gateway)  # agent
     retrieve = ToolNode([doc_retriever])
     workflow.add_node("retrieve", retrieve)  # retrieval
+    workflow.add_node("greetings", greet)
     workflow.add_node("rewrite", rewrite)  # Re-writing the question
-    workflow.add_node(
-        "rag", rag
-    )  # Generating a response after we know the documents are relevant
+    workflow.add_node("rag", rag)  # Generating a response after we know the documents are relevant
+    
     # Call gateway node to decide to retrieve or not
     workflow.add_edge(START, "gateway")
 
@@ -28,9 +28,10 @@ def create_rag_graph() -> CompiledGraph:
         {
             # Translate the condition outputs to nodes in our graph
             "tools": "retrieve",
-            END: END,
+            END: "greetings",
         },
     )
+    workflow.add_edge("greetings", END)
 
     # Edges taken after the `action` node is called.
     workflow.add_conditional_edges(
