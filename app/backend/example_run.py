@@ -24,10 +24,10 @@ if __name__ == "__main__":
     
     inputs = {
         "messages": [
-            ("user", "What is an EBV? Make an example too."),
+            ("user", "What are the rules of basketball?"),
         ]
     }
     graph = create_rag_graph()
 
-    #nodes_output(graph, inputs)
-    node_tokens(graph, inputs)
+    nodes_output(graph, inputs)
+    #node_tokens(graph, inputs)
