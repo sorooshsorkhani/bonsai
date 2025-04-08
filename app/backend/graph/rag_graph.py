@@ -1,7 +1,7 @@
 from langgraph.graph import END, StateGraph, START
 from langgraph.prebuilt import ToolNode, tools_condition
 from app.backend.tools.retriever_tool import doc_retriever
-from app.backend.agents import AgentState, gateway, grade_docs, rag, rewrite, greet
+from app.backend.agents import AgentState, gateway, grade_relevance, rag, rewrite, greet
 from langgraph.graph.graph import CompiledGraph
 
 def create_rag_graph() -> CompiledGraph:
@@ -37,8 +37,11 @@ def create_rag_graph() -> CompiledGraph:
     workflow.add_conditional_edges(
         "retrieve",
         # Assess agent decision
-        grade_docs,
+        grade_relevance,
     )
+
+    # add sufficiency condition
+
     workflow.add_edge("rag", END)
     #workflow.add_edge("rewrite", "gateway")
 
