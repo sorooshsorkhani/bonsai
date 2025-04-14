@@ -3,6 +3,12 @@ from typing import Literal
 from pydantic import BaseModel, Field
 from langchain_core.prompts import PromptTemplate
 
+def format_docs(docs):
+    serialized = "\n\n".join(
+            (f"Document {i+1}:\n\Metadata: {doc.metadata}\nContent: {doc.page_content}")
+            for i, doc in enumerate(docs)
+        )
+    return serialized
 
 def grade_relevance(state) -> Literal["grade_sufficiency", "greetings"]:
     """
@@ -44,10 +50,11 @@ def grade_relevance(state) -> Literal["grade_sufficiency", "greetings"]:
 
     messages = state["messages"]
     query = messages[0].content
-    last_message = messages[-1]
-    docs = last_message.content
+    #last_message = messages[-1]
+    #docs = last_message.content
+    docs = state['documents']
 
-    scored_result = relevance_chain.invoke({"query": query, "context": docs})
+    scored_result = relevance_chain.invoke({"query": query, "context": format_docs(docs)})
 
     score = scored_result.binary_score
 
@@ -61,7 +68,7 @@ def grade_relevance(state) -> Literal["grade_sufficiency", "greetings"]:
         return "greetings"
 
 
-def grade_sufficiency(state) -> Literal["rag", "additional_retrieve"]:
+def grade_sufficiency(state) -> Literal["rag", "generate_queries"]:
     """
     Determines whether the retrieved documents are sufficient to answer the query.
 
@@ -91,7 +98,7 @@ def grade_sufficiency(state) -> Literal["rag", "additional_retrieve"]:
         template="""You are a grader assessing sufficiency of retrieved documents to a user query. \n 
         Here is the retrieved documents: \n\n {context} \n\n
         Here is the user query: {query} \n
-        If the documents sufficient to answer the user query and no additional context is necessary, grade it as sufficient. \n
+        If the documents sufficient to answer the user query and no additional context is needed, grade it as sufficient. \n
         Give a binary score 'yes' or 'no' score to indicate whether the documents are sufficient.""",
         input_variables=["context", "query"],
     )
@@ -101,10 +108,11 @@ def grade_sufficiency(state) -> Literal["rag", "additional_retrieve"]:
 
     messages = state["messages"]
     query = messages[0].content
-    last_message = messages[-1]
-    docs = last_message.content
+    #last_message = messages[-1]
+    #docs = last_message.content
+    docs = state['documents']
 
-    scored_result = sufficiency_chain.invoke({"query": query, "context": docs})
+    scored_result = sufficiency_chain.invoke({"query": query, "context": format_docs(docs)})
 
     score = scored_result.binary_score
 
@@ -115,5 +123,5 @@ def grade_sufficiency(state) -> Literal["rag", "additional_retrieve"]:
     else:
         print("---DECISION: DOCS NOT SUFFICIENT---")
         print(score)
-        return "additional_retrieve"
+        return "generate_queries"
 

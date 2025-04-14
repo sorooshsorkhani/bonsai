@@ -5,7 +5,9 @@ from app.backend.tools.retriever_tool import doc_retriever
 def gateway(state):
     """
     Invokes the gateway model to generate a response based on the current state. Given
-    the question, it will decide to retrieve using the retriever tool, or simply end.
+    the query, it will decide to retrieve using the retriever tool, or simply end.
+    If the query is related to Biodiversity, GEO BON, BON in a Box, etc. use the retriever tool.
+    If it is only greeting or very off topic and irrelevant to biodiversity, end it.
 
     Args:
         state (messages): The current state

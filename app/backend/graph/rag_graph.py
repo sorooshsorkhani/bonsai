@@ -1,7 +1,7 @@
 from langgraph.graph import END, StateGraph, START
 from langgraph.prebuilt import ToolNode, tools_condition
 from app.backend.tools.retriever_tool import doc_retriever
-from app.backend.agents import AgentState, gateway, grade_relevance, rag, rewrite, greet
+from app.backend.agents import AgentState, gateway, grade_relevance, grade_sufficiency, rag, rewrite, greet
 from langgraph.graph.graph import CompiledGraph
 
 def create_rag_graph() -> CompiledGraph:

@@ -13,9 +13,9 @@ def doc_retriever(query:str):
     final_retriever = RetrieverFactory.compression_retriever(base_retriever=merger_retriever)
 
     retrieved_docs = final_retriever.invoke(query)
-    serialized = "\n\n".join(
-        (f"Document {i+1}:\n\Metadata: {doc.metadata}\nContent: {doc.page_content}")
-        for i, doc in enumerate(retrieved_docs)
-    )
+    #serialized = "\n\n".join(
+    #    (f"Document {i+1}:\n\Metadata: {doc.metadata}\nContent: {doc.page_content}")
+    #    for i, doc in enumerate(retrieved_docs)
+    #)
 
-    return serialized
+    return {"documents":retrieved_docs}
