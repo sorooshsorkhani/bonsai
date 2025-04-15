@@ -14,7 +14,7 @@ def grade_relevance(state) -> Literal["grade_sufficiency", "greetings"]:
     """
     Determines whether the retrieved documents are relevant to the query.
 
-    Args:
+    Args:`
         state (messages): The current state
 
     Returns:

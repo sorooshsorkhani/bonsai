@@ -1,5 +1,5 @@
 from app.backend.tools.retriever_tool import doc_retriever
-from langchain.retrievers.multi_query import MultiQueryRetriever
+#from langchain.retrievers.multi_query import MultiQueryRetriever
 
 query = "What is an EBV?"
 

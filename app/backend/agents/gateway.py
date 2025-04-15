@@ -11,6 +11,7 @@ def gateway(state):
 
     Args:
         state (messages): The current state
+        state (documents): The current documents state
         
     Returns:
         dict: The updated state with the gateway response appended to messages

@@ -1,4 +1,6 @@
 import pprint
+from langchain_core.messages import HumanMessage
+from langchain_core.documents import Document
 from app.backend.graph.rag_graph import create_rag_graph
 from app.backend.agents import generate_queries
 
@@ -12,7 +14,7 @@ def nodes_output(graph, inputs):
         pprint.pprint("\n---\n")
 
 def run_node(inputs):
-    response = generate_queries.invoke(inputs)
+    response = generate_queries(inputs)
     print(response)
     return response
 
@@ -29,9 +31,11 @@ if __name__ == "__main__":
     
     inputs = {
         "messages": [
-            ("user", "What is an example of EBVs?"),
+            HumanMessage(content="What are EBVs and why they are important?"),
         ],
-        "documents":["EBV stands for Essential Biodiversity Variable"]
+        "documents": [
+            Document(page_content="EBV stands for Essential Biodiversity Variable", metadata={}),
+        ],
     }
     #graph = create_rag_graph()
 

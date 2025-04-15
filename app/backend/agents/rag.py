@@ -3,6 +3,14 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 
 
+def format_docs(docs):
+    serialized = "\n\n".join(
+            (f"Document {i+1}:\n\Metadata: {doc.metadata}\nContent: {doc.page_content}")
+            for i, doc in enumerate(docs)
+        )
+    return serialized
+
+
 def rag(state):
     """
     Generate answer based on retrieved documents
@@ -16,8 +24,9 @@ def rag(state):
     print("---RAG---")
     messages = state["messages"]
     question = messages[0].content
-    last_message = messages[-1]
-    docs = last_message.content
+    #last_message = messages[-1]
+    #docs = last_message.content
+    docs = state['documents']
     
 
     # Prompt
@@ -66,6 +75,6 @@ def rag(state):
     rag_chain = prompt | rag_model | StrOutputParser()
 
     # Run
-    response = rag_chain.invoke({"context": docs, "question": question})
+    response = rag_chain.invoke({"context": format_docs(docs), "question": question})
     return {"messages": [response]}
 

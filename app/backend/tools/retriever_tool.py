@@ -18,4 +18,4 @@ def doc_retriever(query:str):
     #    for i, doc in enumerate(retrieved_docs)
     #)
 
-    return {"documents":retrieved_docs}
+    return retrieved_docs
