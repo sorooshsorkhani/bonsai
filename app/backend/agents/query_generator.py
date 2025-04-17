@@ -4,12 +4,12 @@ from langchain_core.output_parsers import BaseOutputParser
 from typing import List
 from app.backend.tools.retriever_tool import doc_retriever
 
-def format_docs(docs):
-    serialized = "\n\n".join(
-            (f"Document {i+1}:\n\Metadata: {doc.metadata}\nContent: {doc.page_content}")
-            for i, doc in enumerate(docs)
-        )
-    return docs[0].page_content
+def format_docs(docs: List) -> str:
+
+    return "\n\n".join(
+        f"Document {i+1}:\nMetadata: {doc.metadata}\nContent: {doc.page_content}"
+        for i, doc in enumerate(docs)
+    )
 
 class LineListOutputParser(BaseOutputParser[List[str]]):
     """Output parser for a list of lines."""
@@ -67,4 +67,4 @@ def generate_queries(state):
     generated_queries = query_generator_chain.invoke({"query": query, "context": format_docs(docs)})
     print(generated_queries)
     
-    return {"messages": [generated_queries]}
+    return {"messages": generated_queries}

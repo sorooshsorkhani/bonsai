@@ -4,13 +4,21 @@ from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
 from langchain_core.documents import Document
 
-def add_documents(existing: List[Document], new: List[Document]):
-    existing_set = set(existing)  # relies on Document.__hash__ and __eq__
+def add_documents(existing: List[Document] | None, new:List[Document] | None) -> List[Document]:
+    # If nothing yet, start with an empty list
+    if existing is None:
+        existing = []
 
+    # If no new docs, just return what we have
+    if not new:
+        return existing
+
+    # For each incoming doc, only append if it's not already in the list
     for doc in new:
-        if doc not in existing_set:
+        if doc not in existing:
             existing.append(doc)
-            existing_set.add(doc)
+
+    return existing
 
 
 class AgentState(TypedDict):

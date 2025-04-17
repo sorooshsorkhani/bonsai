@@ -14,8 +14,9 @@ def grade_relevance(state) -> Literal["grade_sufficiency", "greetings"]:
     """
     Determines whether the retrieved documents are relevant to the query.
 
-    Args:`
-        state (messages): The current state
+    Args:
+        state (messages): The current messages state
+        state (documents): The current documents state
 
     Returns:
         str: A decision for whether the documents are relevant or not
@@ -73,7 +74,8 @@ def grade_sufficiency(state) -> Literal["rag", "generate_queries"]:
     Determines whether the retrieved documents are sufficient to answer the query.
 
     Args:
-        state (messages): The current state
+        state (messages): The current messages state
+        state (documents): The current documents state
 
     Returns:
         str: A decision for whether the documents are sufficient or not

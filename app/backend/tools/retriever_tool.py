@@ -1,8 +1,9 @@
 from langchain_core.tools import tool
 from app.backend.retrievers.retriever_factory import RetrieverFactory
+from langchain_core.documents import Document
 
 
-@tool(response_format="content")
+@tool(response_format="content_and_artifact")
 def doc_retriever(query:str):
     """Retrieve information related to a query."""
 
@@ -13,9 +14,13 @@ def doc_retriever(query:str):
     final_retriever = RetrieverFactory.compression_retriever(base_retriever=merger_retriever)
 
     retrieved_docs = final_retriever.invoke(query)
-    #serialized = "\n\n".join(
-    #    (f"Document {i+1}:\n\Metadata: {doc.metadata}\nContent: {doc.page_content}")
-    #    for i, doc in enumerate(retrieved_docs)
-    #)
-
-    return retrieved_docs
+    # strip off any internal state/embeddings and return plain Document 
+    clean_docs = [
+        Document(page_content=doc.page_content, metadata=doc.metadata)
+        for doc in retrieved_docs
+    ]
+    
+    # first element is the user‑facing content (can be empty, or a simple summary)
+    # second element is the actual list of Documents we want as .artifact
+    summary = f"Retrieved {len(clean_docs)} documents."
+    return summary, clean_docs

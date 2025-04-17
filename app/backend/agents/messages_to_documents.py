@@ -13,7 +13,10 @@ def msg_to_docs(state: AgentState):
         dict: The updated state with the documents
     """
 
-    last_message = state['messages'][-1]
-    docs = last_message.content
-    
+    last = state["messages"][-1]
+    # pull the real list off .artifact
+    docs = getattr(last, "artifact", None)
+    if docs is None:
+        # fallback if artifact wasn’t set
+        return {"documents": []}
     return {"documents": docs}

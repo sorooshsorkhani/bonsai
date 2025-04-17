@@ -31,14 +31,12 @@ if __name__ == "__main__":
     
     inputs = {
         "messages": [
-            HumanMessage(content="What are EBVs and why they are important?"),
+            HumanMessage(content="What is an EBV? Consider the documents not sufficient and generate more queries for additional retrieval"),
         ],
-        "documents": [
-            Document(page_content="EBV stands for Essential Biodiversity Variable", metadata={}),
-        ],
+        "documents": []
     }
-    #graph = create_rag_graph()
+    graph = create_rag_graph()
 
-    #nodes_output(graph, inputs)
+    nodes_output(graph, inputs)
     #node_tokens(graph, inputs)
-    run_node(inputs)
+    #run_node(inputs)

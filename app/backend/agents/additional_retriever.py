@@ -4,7 +4,7 @@ from app.backend.tools.retriever_tool import doc_retriever
 
 
 
-def additional_retrieve(state: AgentState):
+def additional_retrieve(state: AgentState) -> dict:
     """
     Retrieves additional documents.
 
@@ -18,13 +18,16 @@ def additional_retrieve(state: AgentState):
 
     print("---ADDITIONAL RETRIEVE---")
 
-    generated_queries = state['messages'][-1]
-    docs = set()
+    # The last message is our list of new query strings
+    queries = state["messages"][-1]
+    if not isinstance(queries, list):
+        queries = [queries]
 
-    for q in generated_queries:
-        retrieved_docs = doc_retriever(q)
-        docs.update(retrieved_docs)
-    
-    docs = list(docs)
+    all_new_docs = []
+    for q in queries:
+        # doc_retriever returns (summary, List[Document])
+        _, new_docs = doc_retriever(q)
+        all_new_docs.extend(new_docs)
 
-    return {'documents': docs}
+    # Return ONLY the newly fetched docs; add_documents will append + dedupe
+    return {"documents": all_new_docs}
