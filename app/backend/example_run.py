@@ -31,7 +31,7 @@ if __name__ == "__main__":
     
     inputs = {
         "messages": [
-            HumanMessage(content="What is an EBV? Consider the documents not sufficient and generate more queries for additional retrieval"),
+            HumanMessage(content="What tool can help with sharing and visualizing EBV datasets?\nYou can retrieve more documents if you need more information."),
         ],
         "documents": []
     }
