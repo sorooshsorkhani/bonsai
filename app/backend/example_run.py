@@ -31,7 +31,7 @@ if __name__ == "__main__":
     
     inputs = {
         "messages": [
-            HumanMessage(content="What tool can help with sharing and visualizing EBV datasets?\nYou can retrieve more documents if you need more information."),
+            HumanMessage(content="What is a pipeline in BON in a Box?"),
         ],
         "documents": []
     }
