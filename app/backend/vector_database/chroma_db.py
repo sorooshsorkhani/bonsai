@@ -10,8 +10,11 @@ from app.backend.document_splitter.document_splitter import doc_splitter
 # Get the absolute path of the current script
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 
+# Determine the embedding model
+embedding_mode_name = "static-similarity-mrl-multilingual-v1"
+
 # Define the persist directory inside the same folder as the script
-PERSIST_DIRECTORY = os.path.join(CURRENT_DIR, "vectordb")
+PERSIST_DIRECTORY = os.path.join(CURRENT_DIR, "vectordb-"+embedding_mode_name)
 DATA_PATH = os.path.join(CURRENT_DIR, "../data")
 
 
@@ -39,7 +42,7 @@ def initialize_vectordb():
     splits = paper_docs_splits + github_docs + tools_docs
 
     # Load embedding
-    embedding = load_embedding()
+    embedding = load_embedding(model_name=embedding_mode_name)
 
     # Create and persist the vector database
     vectordb = Chroma.from_documents(
@@ -57,7 +60,7 @@ def load_vectordb():
     """
     vectordb = Chroma(
         persist_directory=PERSIST_DIRECTORY,
-        embedding_function=load_embedding()
+        embedding_function=load_embedding(model_name=embedding_mode_name)
     )
     return vectordb
 
