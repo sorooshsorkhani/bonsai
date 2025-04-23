@@ -40,7 +40,8 @@ def rag(state):
         given question based solely on the provided retrieved documents (metadata and content). You must \
         only use information from the provided retrieved documents. Use an unbiased and \
         journalistic tone. Combine retrieved documents together into a coherent answer. Do not \
-        repeat text. Cite retrieved documents using [$number] notation. Only cite the most \
+        repeat text. Cite retrieved documents using [number] notation, and provide the source from metadata as reference at the end of your response. \
+        Only cite the most \
         relevant documents that answer the question accurately. Place these citations at the end \
         of the sentence or paragraph that reference them - do not put them all at the end. If \
         different documents refer to different entities within the same name, write separate \
