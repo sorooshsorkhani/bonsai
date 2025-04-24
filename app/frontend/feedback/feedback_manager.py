@@ -1,19 +1,19 @@
 import json
-import os
 from datetime import datetime
 from pathlib import Path
 
 # Determine the path to the feedback JSON file
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
-DATA_DIR.mkdir(exist_ok=True)  # ensure data directory exists
-FEEDBACK_FILE = DATA_DIR / "feedback_log.json"
+DATA_DIR.mkdir(exist_ok=True)
+FEEDBACK_FILE = DATA_DIR / "feedback_logs.json"
 
 def record_feedback(
     message_index: int,
     message_text: str,
     feedback: str,
-    user_input: str = None
+    user_input: str = None,
+    comment: str = None
 ):
     """
     Append a feedback record to feedback.json.
@@ -23,24 +23,26 @@ def record_feedback(
         message_text: the full text of the assistant's response.
         feedback: either 'up' or 'down'.
         user_input: the user's input that prompted this response.
+        comment: optional written feedback if they clicked thumbs-down.
     """
-    # Load existing feedback
+    # Load existing records
     try:
         with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
             records = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         records = []
 
-    # Create new record
+    # Build new record
     record = {
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "message_index": message_index,
         "user_input": user_input,
         "message_text": message_text,
         "feedback": feedback,
+        "comment": comment,
     }
     records.append(record)
 
-    # Save back
+    # Write back
     with open(FEEDBACK_FILE, "w", encoding="utf-8") as f:
         json.dump(records, f, indent=2)
