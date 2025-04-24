@@ -9,7 +9,12 @@ DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)  # ensure data directory exists
 FEEDBACK_FILE = DATA_DIR / "feedback_log.json"
 
-def record_feedback(message_index: int, message_text: str, feedback: str):
+def record_feedback(
+    message_index: int,
+    message_text: str,
+    feedback: str,
+    user_input: str = None
+):
     """
     Append a feedback record to feedback.json.
 
@@ -17,6 +22,7 @@ def record_feedback(message_index: int, message_text: str, feedback: str):
         message_index: index of the assistant message in session_state.
         message_text: the full text of the assistant's response.
         feedback: either 'up' or 'down'.
+        user_input: the user's input that prompted this response.
     """
     # Load existing feedback
     try:
@@ -29,8 +35,9 @@ def record_feedback(message_index: int, message_text: str, feedback: str):
     record = {
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "message_index": message_index,
+        "user_input": user_input,
+        "message_text": message_text,
         "feedback": feedback,
-        "message_text": message_text
     }
     records.append(record)
 
