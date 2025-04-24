@@ -12,14 +12,10 @@ load_dotenv()
 GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN") # will expire in 30 days from creation
 
 # Define absolute paths
-BON_AI_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
-DATA_PATH = os.path.join(BON_AI_ROOT, "app/backend/data/github_docs.pkl")
+BONSAI_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
+DATA_PATH = os.path.join(BONSAI_ROOT, "app/backend/data/github_docs.pkl")
 
-# Allowed extensions and folders
-ALLOWED_EXTENSIONS = [".yml", ".md"]
-ALLOWED_FOLDERS = ["pipelines/", "scripts/"]
-
-def load_github_files(repo: str, branch: str, extensions: list, folders: list):
+def load_github_files(repo: str, branch: str, extensions: list=[], folders: list=[]):
     """Loads GitHub files based on allowed extensions and folders."""
     loader = GithubFileLoader(
         repo=repo,
@@ -27,8 +23,8 @@ def load_github_files(repo: str, branch: str, extensions: list, folders: list):
         access_token=GITHUB_ACCESS_TOKEN,
         github_api_url="https://api.github.com",
         file_filter=lambda file_path: (
-            any(file_path.endswith(ext) for ext in extensions) and 
-            any(file_path.startswith(folder) for folder in folders)
+            (not extensions or any(file_path.endswith(ext) for ext in extensions)) and
+            (not folders or any(file_path.startswith(folder) for folder in folders))
         ),
     )
     return loader.load()
@@ -73,16 +69,40 @@ def save_pickle(data, path):
         pickle.dump(data, file)
 
 def main():
-    repo_name = "GEO-BON/bon-in-a-box-pipelines"
-    branch_name = "main"
 
-    # Load and process GitHub files
-    github_documents = load_github_files(repo_name, branch_name, ALLOWED_EXTENSIONS, ALLOWED_FOLDERS)
-    github_documents = process_github_documents(github_documents)
-
+    # Load and process the pipelines repo
+    pipeline_repo_name = "GEO-BON/bon-in-a-box-pipelines"
+    pipeline_branch_name = "main"
+    # Load and process [".yml", ".md", ".Rmd"] files
+    pipeline_documents = load_github_files(pipeline_repo_name, pipeline_branch_name, extensions=[".yml", ".md", ".Rmd"], folders=["pipelines/", "scripts/"])
+    pipeline_documents = process_github_documents(pipeline_documents)
     # Load and process JSON files
-    json_documents = load_and_process_json(repo_name, branch_name, ALLOWED_FOLDERS)
-    github_documents.extend(json_documents)
+    json_documents = load_and_process_json(pipeline_repo_name, pipeline_branch_name, folders=["pipelines/", "scripts/"])
+    pipeline_documents.extend(json_documents)
+
+
+    # Load and process the pipeline engine repo
+    engine_repo_name = "GEO-BON/bon-in-a-box-pipeline-engine"
+    engine_branch_name = "edge"
+    engine_documents = []
+    # Load and process ".yml" files
+    engine_documents1 = load_github_files(engine_repo_name, engine_branch_name, extensions=[".yml"], folders=["script-stubs/"])
+    engine_documents1 = process_github_documents(engine_documents1)
+    # Load and process the ".yaml" file
+    engine_documents2 = load_github_files(engine_repo_name, engine_branch_name, extensions=[".yaml"], folders=["script-server/api/"])
+    engine_documents2 = process_github_documents(engine_documents2)
+    # Load and process ".md", ".qmd" files
+    engine_documents3 = load_github_files(engine_repo_name, engine_branch_name, extensions=[".md", ".qmd"])
+    engine_documents3 = process_github_documents(engine_documents3)
+    # Combine the engine docs
+    engine_documents.extend(engine_documents1)
+    engine_documents.extend(engine_documents2)
+    engine_documents.extend(engine_documents3)
+
+
+    # Combine the documents from all repositories
+    github_documents = []
+    github_documents.extend(pipeline_documents + engine_documents)
 
     # Save final pickle file
     save_pickle(github_documents, DATA_PATH)
