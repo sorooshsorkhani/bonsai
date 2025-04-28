@@ -129,6 +129,8 @@ celerybeat.pid
 
 # Environments
 .env
+# But allow the example file
+!.env.example
 .venv
 env/
 venv/
