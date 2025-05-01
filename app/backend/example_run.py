@@ -34,7 +34,8 @@ if __name__ == "__main__":
             HumanMessage(content="What is a pipeline in BON in a Box?"),
         ],
         "documents": []
-    }
+    
+}
     graph = create_rag_graph()
 
     nodes_output(graph, inputs)
