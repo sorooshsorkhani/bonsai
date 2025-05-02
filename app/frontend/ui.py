@@ -89,8 +89,16 @@ if user_input:
     with st.chat_message("assistant"):
         response_container = st.empty()
         full_response = ""
+        error_occurred = False
         for chunk in stream_response(user_input):
+            if chunk == "[ERROR:RATE_LIMIT]":
+                error_occurred = True
+                full_response = "⚠️ You reached the rate limit. Please try again later."
+                break
             full_response += chunk
+            response_container.markdown(full_response)
+        # Final render
+        if error_occurred:
             response_container.markdown(full_response)
 
     # append assistant message & init feedback
