@@ -15,16 +15,15 @@ class GroqLLM:
     # List of Groq models (in order of ranking)
     GROQ_MODELS = [
         'llama-3.3-70b-versatile',                       # 0
-        'llama-3.3-70b-specdec',                         # 1
-        'meta-llama/llama-4-maverick-17b-128e-instruct', # 2
-        'meta-llama/llama-4-scout-17b-16e-instruct',     # 3
-        'llama-3.1-8b-instant',                          # 4
-        'llama3-8b-8192',                                # 5
+        'meta-llama/llama-4-maverick-17b-128e-instruct', # 1
+        'meta-llama/llama-4-scout-17b-16e-instruct',     # 2
+        'llama-3.1-8b-instant',                          # 3
+        'llama3-8b-8192',                                # 4
         'llama-guard-3-8b'                               # -1
     ]
 
     @staticmethod
-    def load_llm(model: str = GROQ_MODELS[3], temperature:int = 0, streaming:bool = True):
+    def load_llm(model: str = GROQ_MODELS[2], temperature:int = 0, streaming:bool = True):
         """Load the model based on the provided name or use default (llama-3.3-70b-versatile)."""
         if model not in GroqLLM.GROQ_MODELS:
             available_models = ",\n".join(GroqLLM.GROQ_MODELS)  # Join available models into a string

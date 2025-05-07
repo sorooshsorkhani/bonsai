@@ -35,7 +35,7 @@ class RetrieverFactory:
 
 
     @staticmethod
-    def self_query_retriever(llm = GroqLLM.load_llm(), vectordb=chroma_db.load_vectordb(), k: int = 2):
+    def self_query_retriever(llm = GroqLLM.load_llm(model="llama-3.3-70b-versatile"), vectordb=chroma_db.load_vectordb(), k: int = 2):
         """
         Create a Self-Query Retriever that formulates queries based on user input.
 
