@@ -1,5 +1,5 @@
 from app.backend.graph.rag_graph import create_rag_graph
-from groq import RateLimitError
+from app.backend.errors.error_handler import handle_groq_error
 
 # Initialize the graph only once
 print("Initializing RAG Graph... This may take some time.")
@@ -20,11 +20,8 @@ def stream_response(user_input):
 
     try:
         for msg, metadata in rag_graph.stream(inputs, stream_mode="messages"):
-            if msg.content and metadata["langgraph_node"] == "rag":
+            if msg.content and metadata["langgraph_node"] in ["rag", "greetings"]:
                 yield msg.content
-            if msg.content and metadata["langgraph_node"] == "greetings":
-                yield msg.content
-
-    except RateLimitError:
-        # Yield a special marker that UI can detect
-        yield "[ERROR:RATE_LIMIT]"
+                
+    except Exception as e:
+        yield handle_groq_error(e)

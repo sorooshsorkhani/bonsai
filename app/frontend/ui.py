@@ -91,9 +91,10 @@ if user_input:
         full_response = ""
         error_occurred = False
         for chunk in stream_response(user_input):
-            if chunk == "[ERROR:RATE_LIMIT]":
+            if chunk.startswith("[ERROR:"):
                 error_occurred = True
-                full_response = "⚠️ You reached the rate limit. Please try again later."
+                # Extract the human-readable error message from the chunk
+                full_response = f"⚠️ {chunk[7:-1].replace('_', ' ')}. Please try again later."
                 break
             full_response += chunk
             response_container.markdown(full_response)
