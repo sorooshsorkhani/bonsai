@@ -39,7 +39,7 @@ def rag(state):
 
         <context>
             {context}
-        <context/>
+        </context>
 
         Instructions:
         - Generate a **clear, comprehensive, and well-structured** answer based solely on the content inside the <context> block.
@@ -52,7 +52,7 @@ def rag(state):
         - If different documents refer to different entities with the same name, write **separate answers for each**.
 
         At the end of your response, include a **References** section listing the documents you cited:
-        - In the **References** section, **number each entry** in the order it was cited, using the same numbers as in the citations (e.g., `[1]`, `[2]`, etc.).
+        - In the **References** section, **number each entry** in the order it was cited in your response, using the same numbers as in the citations (e.g., `[1]`, `[2]`, etc.).
         - Use the "source" from document metadata to reference.
         - Put each reference on a bullet point, in ascending order of their citation number (from 1 to ...).
 

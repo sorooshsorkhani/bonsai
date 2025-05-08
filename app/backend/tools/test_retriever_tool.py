@@ -1,9 +1,9 @@
 from app.backend.tools.retriever_tool import doc_retriever
 #from langchain.retrievers.multi_query import MultiQueryRetriever
 
-query = "What is an EBV?"
+query = "BON in a Box indicator genetic diversity change population"
 
 print("\n\nCustom retriever:\n\n")
-custom_retrieved_docs = doc_retriever.invoke(query)
+summary, custom_retrieved_docs = doc_retriever.func(query)
 print(custom_retrieved_docs)
 

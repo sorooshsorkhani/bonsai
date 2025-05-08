@@ -37,17 +37,41 @@ def grade_relevance(state) -> Literal["grade_sufficiency", "greetings"]:
     llm_with_relevance = relevance_model.with_structured_output(grade)
 
     # Prompt
-    prompt = PromptTemplate(
-        template="""You are a grader assessing relevance of retrieved documents to a user query. \n 
-        Here is the retrieved documents: \n\n {context} \n\n
-        Here is the user query: {query} \n
-        If the documents contain keyword(s) or semantic meaning related to the user query, grade it as relevant. \n
-        Give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the query.""",
-        input_variables=["context", "query"],
+    relevance_prompt = PromptTemplate(
+        template="""
+        You are an expert relevance grader.
+
+        **Task:** Decide whether the <context> passage is topically relevant to the <query>.  
+        A passage is **relevant** if **any** of the following hold  
+        • overlaps in subject area, discipline, goal, or problem domain  
+        • shares key entities, concepts, or synonyms (even if wording differs)  
+        • answers, explains, or supplements part of the user’s need  
+        It does **not** have to fully answer the query or match every keyword.
+
+        --------------------
+        <context>
+        {context}
+        </context>
+
+        <query>
+        {query}
+        </query>
+        --------------------
+
+        **Output rules**  
+        1. Think silently about semantic and keyword overlap.  
+        2. Output exactly one word on its own line:  
+        • `yes`  – context is relevant  
+        • `no`   – context is not relevant  
+        (No quotation marks, additional text, or punctuation.)
+
+        Begin your silent reasoning now. Then output your single-word verdict:
+        """,
+            input_variables=["context", "query"],
     )
 
     # Chain
-    relevance_chain = prompt | llm_with_relevance
+    relevance_chain = relevance_prompt | llm_with_relevance
 
     messages = state["messages"]
     query = messages[0].content
@@ -96,17 +120,43 @@ def grade_sufficiency(state) -> Literal["rag", "generate_queries"]:
     llm_with_sufficiency = sufficiency_model.with_structured_output(grade)
 
     # Prompt
-    prompt = PromptTemplate(
-        template="""You are a grader assessing sufficiency of retrieved documents to a user query. \n 
-        Here is the retrieved documents: \n\n {context} \n\n
-        Here is the user query: {query} \n
-        If the documents sufficient to answer the user query and no additional context is needed, grade it as sufficient. \n
-        Give a binary score 'yes' or 'no' score to indicate whether the documents are sufficient.""",
-        input_variables=["context", "query"],
+    sufficiency_prompt = PromptTemplate(
+        template="""
+        You are an expert sufficiency grader.
+
+        **Task:** Decide whether the <context> passage by itself contains *enough* information to directly and completely answer the <query>.  
+        A passage is **sufficient** if:
+
+        • Every part of the query can be answered from the passage alone  
+        • No key facts, steps, or definitions are missing  
+        • A well-informed answer could be written without consulting additional sources
+
+        If the passage is only partially helpful, leaves major gaps, or you would still “need to look something up,” it is **not** sufficient.
+
+        --------------------
+        <context>
+        {context}
+        </context>
+
+        <query>
+        {query}
+        </query>
+        --------------------
+
+        **Output rules**  
+        1. Think silently about completeness and coverage.  
+        2. Output exactly one word on its own line:  
+        • `yes`  – context is sufficient  
+        • `no`   – context is not sufficient  
+        (No other text, punctuation, or quotation marks.)
+
+        Begin your silent reasoning now. Then output your single-word verdict:
+        """,
+            input_variables=["context", "query"],
     )
 
     # Chain
-    sufficiency_chain = prompt | llm_with_sufficiency
+    sufficiency_chain = sufficiency_prompt | llm_with_sufficiency
 
     messages = state["messages"]
     query = messages[0].content
