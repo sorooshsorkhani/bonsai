@@ -25,5 +25,5 @@ def load_embedding(model_name=AVAILABLE_MODELS[1]):
     """
     if model_name not in AVAILABLE_MODELS:
         raise ValueError(f"Unsupported model '{model_name}'. Choose from: {AVAILABLE_MODELS}")
-    return HuggingFaceEmbeddings(model_name=model_name, cache_folder="app/backend/embedding/cache_embedding_model/")
+    return HuggingFaceEmbeddings(model_name=model_name)
 
