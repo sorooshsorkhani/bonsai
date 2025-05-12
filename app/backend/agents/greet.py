@@ -98,7 +98,6 @@ def greet(state):
     ]
 
 
-
     # Greeter
     #rewrite_model = GroqLLM.load_llm()
     #response = rewrite_model.invoke(msg)

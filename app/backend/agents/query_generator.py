@@ -38,20 +38,26 @@ def generate_queries(state):
 
     # Prompt
     prompt = PromptTemplate(
-        template="""You are an expert query generator. Your goal is to identify gaps in the provided context that prevent a complete answer to the user's query.\n
-            Carefully compare the user's question and the provided context to see what information is missing.\n
-            Only generate additional queries that would help fill in missing details — not repeat what is already known.\n\n
-            Here is the context that is already seen (you should NOT generate queries to repeat this information):\n
-            {context}\n\n
-            Here is the user's query: {query}\n\n
-            What is missing from the context that prevents a full answer to the user's query?\n
-            Generate 1 to 3 focused and specific queries that would retrieve documents to fill in those gaps.\n\n
-            Each query should be short, keyword-rich, and optimized for search in a vector database.\n
-            ❗ Do NOT use full sentences. Use compact phrases or keywords.\n
-            ❌ Do NOT include explanation or context.\n
-            ✅ Only output the queries, separated by newlines.\n\n
-            Additional queries:\n""",
-                input_variables=["context", "query"],
+            template="""
+        You are an expert query generator. Your job is to look at what the user asked and what their retrieved documents already contain, find *only* the missing pieces needed to fully answer the question, and then output 1–3 concise, keyword‑only search queries to fill those gaps.
+
+        Context (don’t repeat anything already here):
+        <context>
+            {context}
+        </context>
+
+        User question:
+        {query}
+
+        Instructions:
+        – Identify up to three distinct facts or topics that are *not* present in the context but are needed to answer the user.
+        – For each, write one short phrase of keywords (no full sentences).
+        – Do *not* repeat or paraphrase the context.
+        – Do *not* include explanations, numbering, bullets, or any text other than the queries.
+        – Output exactly one query per line, maximum three lines.
+
+        Additional queries:""",
+            input_variables=["context", "query"],
     )
 
     # Chain
