@@ -31,14 +31,13 @@ if __name__ == "__main__":
     
     inputs = {
         "messages": [
-            HumanMessage(content="If I want to look at change in genetic diversity in a population, which BON in a Box indicator should I use?"),
+            HumanMessage(content="How can I choose the dispersal distance parameter for the protected connected index (protconn) BON in a Box pipeline?"),
         ],
         "documents": []
     
 }
     graph = create_rag_graph()
 
-    while True:
-        nodes_output(graph, inputs)
-        #node_tokens(graph, inputs)
-        #run_node(inputs)
+    nodes_output(graph, inputs)
+    #node_tokens(graph, inputs)
+    #run_node(inputs)
