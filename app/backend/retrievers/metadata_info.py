@@ -36,3 +36,43 @@ METADATA_FIELD_INFO = [
 ]
 
 DOCUMENT_CONTENT_DESCRIPTION = "Content extracted from scientific publications, BON in a Box repositories, or BON in a Box tools catalogue."
+
+# few shot examples to use in SelfQueryRetriever
+EXAMPLES = [
+    {
+        "query": "What file format can I use to input protected areas for the protconn pipeline?",
+        "filter": "eq(\"document_category\",\"BON in a Box Pipelines GitHub\")",
+    },
+    {
+        "query": "How can I choose the dispersal distance parameter for the protected connected index (protconn) BON in a Box pipeline?",
+        "filter": "eq(\"document_category\",\"BON in a Box Pipelines GitHub\")",
+    },
+    {
+        "query": "What is an EBV?",
+        "filter": "NO_FILTER",
+    },
+    {
+        "query": "What tools can I use to know where a species can be?",
+        "filter": "or(eq(\"document_category\",\"BON in a Box Pipelines GitHub\"), eq(\"document_category\",\"BON in a Box Tools\"))",
+    },
+    {
+        "query": "How are pipelines assembled in BON in a Box?",
+        "filter": "eq(\"document_category\",\"BON in a Box Pipelines GitHub\")",
+    },
+    {
+        "query": "If I want to contribute, how are pipelines assembled in BON in a Box?",
+        "filter": "eq(\"document_category\",\"BON in a Box Pipelines GitHub\")",
+    },
+    {
+        "query": "What is the link between Essential Biodiversity Variables and biodiversity indicators?",
+        "filter": "NO_FILTER",
+    },
+    {
+        "query": "What are some of the models that can be used to prioritize sampling in the context of establishing BONs?",
+        "filter": "or(eq(\"document_category\",\"GEO BON Publications\"), eq(\"document_category\",\"BON in a Box Pipelines GitHub\"))",
+    },
+    {
+        "query": "Show GEO BON Publications from 2019 onward",
+        "filter": "and(eq(\"document_category\",\"GEO BON Publications\"), gte(\"year\",2019))",
+    },
+]

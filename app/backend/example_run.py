@@ -31,7 +31,7 @@ if __name__ == "__main__":
     
     inputs = {
         "messages": [
-            HumanMessage(content="How can I choose the dispersal distance parameter for the protected connected index (protconn) BON in a Box pipeline?"),
+            HumanMessage(content="How are pipelines assembled in BON in a Box"),
         ],
         "documents": []
     

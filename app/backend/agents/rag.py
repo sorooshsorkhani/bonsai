@@ -53,7 +53,7 @@ def rag(state):
 
         At the end of your response, include a **References** section listing the documents you cited:
         - In the **References** section, **number each entry** in the order it was cited in your response, using the same numbers as in the citations (e.g., `[1]`, `[2]`, etc.).
-        - Use the "source" from document metadata to reference.
+        - Use the "source" of the document to reference.
         - Put each reference on a bullet point, in ascending order of their citation number (from 1 to ...).
 
         Repeat: Only use the information from the context. If nothing relevant is found, just say "Hmm, I'm not sure."
