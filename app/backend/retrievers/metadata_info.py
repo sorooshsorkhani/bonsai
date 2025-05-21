@@ -18,8 +18,8 @@ TOOLS_BADGES = ['Reptiles', 'Observation design', 'Ecosystem services', 'Data co
 METADATA_FIELD_INFO = [
     # General
     AttributeInfo(
-        name="source_type",
-        description="The type/category of the document/source. One of [\"GEO BON Publications\", \"BON in a Box Pipelines GitHub\", \"BON in a Box Tools\"]",
+        name="document_category",
+        description="Category of the document. One of [\"GEO BON Publications\", \"BON in a Box Pipelines GitHub\", \"BON in a Box Tools\"]",
         type="string",
     ),
     AttributeInfo(
@@ -30,20 +30,9 @@ METADATA_FIELD_INFO = [
     # GEO BON Publications
     AttributeInfo(
         name="year",
-        description="The year of publication. Used for GEO BON Publications",
+        description="Publication year (applies to GEO BON Publications)",
         type="integer",
-    ),
-    AttributeInfo(
-        name="page",
-        description="The page number of the document. Used for GEO BON Publications",
-        type="string",
-    ),
-    # Tools Catalogue
-    AttributeInfo(
-        name="tool_title",
-        description="The title of the tool. Used for BON in a Box Tools",
-        type="string",
     )
 ]
 
-DOCUMENT_CONTENT_DESCRIPTION = "Extensive and detailed information on a wide range of topics."
+DOCUMENT_CONTENT_DESCRIPTION = "Content extracted from scientific publications, BON in a Box repositories, or BON in a Box tools catalogue."
