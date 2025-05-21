@@ -5,7 +5,7 @@ from langchain_groq import ChatGroq
 
 class GroqLLM:
     # Load environment variables
-    load_dotenv()
+    load_dotenv(override=True)
 
     # Set the API key if not already set
     if not os.environ.get("GROQ_API_KEY"):

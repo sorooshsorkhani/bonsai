@@ -8,8 +8,9 @@ from dotenv import load_dotenv
 from langchain_community.document_loaders import GithubFileLoader
 
 # Load environment variables
-load_dotenv()
+load_dotenv(override=True)
 GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN") # will expire in 30 days (on June 20, 2025)
+
 
 # Define absolute paths
 BONSAI_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
