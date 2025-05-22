@@ -23,7 +23,7 @@ class GroqLLM:
     ]
 
     @staticmethod
-    def load_llm(model: str = GROQ_MODELS[2], temperature:int = 0, streaming:bool = True):
+    def load_llm(model: str = GROQ_MODELS[0], temperature:int = 0, streaming:bool = True):
         """Load the model based on the provided name or use default (llama-3.3-70b-versatile)."""
         if model not in GroqLLM.GROQ_MODELS:
             available_models = ",\n".join(GroqLLM.GROQ_MODELS)  # Join available models into a string
