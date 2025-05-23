@@ -9,7 +9,7 @@ from langchain.retrievers import MergerRetriever, ContextualCompressionRetriever
 from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain_community.document_transformers import EmbeddingsRedundantFilter, LongContextReorder
 from langchain.retrievers.document_compressors import LLMChainExtractor, DocumentCompressorPipeline
-from app.backend.retrievers.metadata_info import DOCUMENT_CONTENT_DESCRIPTION, METADATA_FIELD_INFO
+from app.backend.retrievers.metadata_info import DOCUMENT_CONTENT_DESCRIPTION, METADATA_FIELD_INFO, EXAMPLES
 from app.backend.embedding.hf_embedding import load_embedding
 from app.backend.vector_database import chroma_db
 from app.backend.llm.groq import GroqLLM
@@ -52,10 +52,11 @@ class RetrieverFactory:
             vectordb,
             document_contents=DOCUMENT_CONTENT_DESCRIPTION,
             metadata_field_info=METADATA_FIELD_INFO,
+            examples=EXAMPLES,
             verbose=True,
             fix_invalid=True,
             search_kwargs={"k": k},
-            use_original_query=False
+            use_original_query=True
         )
 
 

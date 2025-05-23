@@ -70,6 +70,17 @@ def tool_catalogue_extractor(html):
 def create_tools_metadata(docs):
     """Extracts metadata from tools_documents."""
     for doc in docs:
+        metadata = {
+            "source": doc.metadata.get("source"),
+            "document_category": "BON in a Box Tools"
+        }
+
+        doc.metadata = metadata    
+        
+
+def old_create_tools_metadata(docs):
+    """Extracts metadata from tools_documents."""
+    for doc in docs:
         content = doc.page_content
         metadata = {
             "source": doc.metadata.get("source"),
@@ -100,13 +111,12 @@ def create_tools_metadata(docs):
         ) if badges_section else ""
 
         doc.metadata = metadata    
-        
 
 
 def load_tools():
     """Fetches tools from URLs, extracts metadata, and saves them as a pickle file."""
     tools_documents = []
-    for i in range(243):
+    for i in range(246): # last update: May 25th, 2025 - 173 Tools
         loader = RecursiveUrlLoader(
             f"https://boninabox.geobon.org/tool-detail?id={i+1}",
             max_depth=1,

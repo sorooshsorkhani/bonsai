@@ -8,8 +8,9 @@ from dotenv import load_dotenv
 from langchain_community.document_loaders import GithubFileLoader
 
 # Load environment variables
-load_dotenv()
-GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN") # will expire in 30 days from creation
+load_dotenv(override=True)
+GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN") # will expire in 30 days (on June 20, 2025)
+
 
 # Define absolute paths
 BONSAI_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
@@ -33,7 +34,10 @@ def process_github_documents(documents):
     """Processes GitHub document metadata."""
     for doc in documents:
         doc.metadata["source"] = doc.metadata["source"].replace("api.github.com", "github.com")
-        doc.metadata["source_type"] = "BON in a Box Pipelines GitHub"
+        doc.metadata["document_category"] = "BON in a Box Pipelines GitHub"
+
+        # New line for metadata optimization purposes. Eliminating extra metadata fields
+        doc.metadata = {key: doc.metadata.get(key) for key in ['source', 'document_category']}
     return documents
 
 def load_and_process_json(repo: str, branch: str, folders: list):

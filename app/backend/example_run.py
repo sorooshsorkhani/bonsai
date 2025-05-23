@@ -31,14 +31,13 @@ if __name__ == "__main__":
     
     inputs = {
         "messages": [
-            HumanMessage(content="If I want to look at change in genetic diversity in a population, which BON in a Box indicator should I use?"),
+            HumanMessage(content="How are pipelines assembled in BON in a Box"),
         ],
         "documents": []
     
 }
     graph = create_rag_graph()
 
-    while True:
-        nodes_output(graph, inputs)
-        #node_tokens(graph, inputs)
-        #run_node(inputs)
+    nodes_output(graph, inputs)
+    #node_tokens(graph, inputs)
+    #run_node(inputs)
