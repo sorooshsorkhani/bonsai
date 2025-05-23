@@ -178,4 +178,4 @@ cython_debug/
 app/backend/vector_database/vectordb*/
 app/backend/files/
 app/backend/data/
-app/frontend/feedback/data/
+app/backend/feedback/data/

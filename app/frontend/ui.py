@@ -1,6 +1,6 @@
 import streamlit as st
 from app.backend.run_backend import stream_response
-from app.frontend.feedback.feedback_manager import record_feedback
+from app.backend.feedback.feedback_manager import record_feedback
 
 # ─── Initialization ──────────────────────────────────────────────────────────
 
