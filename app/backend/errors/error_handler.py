@@ -24,4 +24,4 @@ def handle_groq_error(error):
         return "[ERROR:Unexpected server response]"
     else:
         print("An unknown error occurred:", str(error))
-        return "[ERROR:Unknown error]"
+        return "[ERROR:Unknown error on server side]"
