@@ -5,8 +5,8 @@ from app.backend.graph.rag_graph import create_rag_graph
 from app.backend.agents import generate_queries
 
 
-def nodes_output(graph, inputs):
-    for output in graph.stream(inputs):
+def nodes_output(graph, inputs, config):
+    for output in graph.stream(inputs, config=config):
         for key, value in output.items():
             pprint.pprint(f"Output from node '{key}':")
             pprint.pprint("---")
@@ -29,15 +29,26 @@ def node_tokens(graph, inputs):
 
 if __name__ == "__main__":
     
-    inputs = {
+    inputs1 = {
         "messages": [
-            HumanMessage(content="How are pipelines assembled in BON in a Box"),
+            HumanMessage(content="What is an EBV?"),
         ],
         "documents": []
     
-}
+    }
+    inputs2 = {
+        "messages": [
+            HumanMessage(content="Can you make an example?"),
+        ],
+        "documents": []
+    
+    }
+    # Specify an ID for the thread
+    config = {"configurable": {"thread_id": "2"}}
+    
     graph = create_rag_graph()
 
-    nodes_output(graph, inputs)
+    nodes_output(graph, inputs1, config=config)
+    nodes_output(graph, inputs2, config=config)
     #node_tokens(graph, inputs)
     #run_node(inputs)

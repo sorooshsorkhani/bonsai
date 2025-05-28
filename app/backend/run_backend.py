@@ -17,9 +17,10 @@ def stream_response(user_input):
         str: Response tokens from the model.
     """
     inputs = {"messages": [("user", user_input)]}
+    config = {"configurable": {"thread_id": "2"}}
 
     try:
-        for msg, metadata in rag_graph.stream(inputs, stream_mode="messages"):
+        for msg, metadata in rag_graph.stream(inputs, stream_mode="messages", config=config):
             if msg.content and metadata["langgraph_node"] in ["rag", "greetings"]:
                 yield msg.content
                 

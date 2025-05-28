@@ -13,10 +13,13 @@ from app.backend.agents import (
     additional_retrieve,
     msg_to_docs,
 )
+from langgraph.checkpoint.memory import MemorySaver
 
 def create_rag_graph() -> CompiledGraph:
     # Initialize the graph with our AgentState schema
     workflow = StateGraph(AgentState)
+
+    memory = MemorySaver()
 
     # Define core nodes
     workflow.add_node("gateway", gateway)
@@ -72,4 +75,4 @@ def create_rag_graph() -> CompiledGraph:
     workflow.add_edge("additional_retrieve", "rag")
     workflow.add_edge("rag", END)
 
-    return workflow.compile()
+    return workflow.compile(checkpointer=memory)
