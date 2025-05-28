@@ -19,7 +19,7 @@ class GroqLLM:
         'meta-llama/llama-4-scout-17b-16e-instruct',     # 2
         'llama-3.1-8b-instant',                          # 3
         'llama3-8b-8192',                                # 4
-        'llama-guard-3-8b'                               # -1
+        'meta-llama/Llama-Guard-4-12B'                   # -1
     ]
 
     @staticmethod
