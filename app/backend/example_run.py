@@ -29,22 +29,26 @@ def node_tokens(graph, inputs):
 
 if __name__ == "__main__":
     
+    question1 = "What is an EBV?"
     inputs1 = {
         "messages": [
-            HumanMessage(content="What is an EBV?"),
+            HumanMessage(content=question1),
         ],
-        "documents": []
+        "documents": [],
+        "question": question1
     
     }
+    question2 = "Can you make an example?"
     inputs2 = {
         "messages": [
-            HumanMessage(content="Can you make an example?"),
+            HumanMessage(content=question2),
         ],
-        "documents": []
+        "documents": [],
+        "question": question2
     
     }
     # Specify an ID for the thread
-    config = {"configurable": {"thread_id": "2"}}
+    config = {"configurable": {"thread_id": "3"}}
     
     graph = create_rag_graph()
 

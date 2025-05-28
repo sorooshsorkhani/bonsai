@@ -14,6 +14,7 @@ def msg_to_docs(state: AgentState):
     """
 
     last = state["messages"][-1]
+    state['messages'] = state['messages'][:-1]
     # pull the real list off .artifact
     docs = getattr(last, "artifact", None)
     if docs is None:

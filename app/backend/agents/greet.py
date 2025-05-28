@@ -15,7 +15,7 @@ def greet(state):
 
     print("---GREET---")
     messages = state["messages"]
-    question = messages[0].content
+    question = state['question']
 
     msg = [
         HumanMessage(

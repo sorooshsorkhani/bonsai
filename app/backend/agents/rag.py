@@ -23,9 +23,8 @@ def rag(state):
     """
     print("---RAG---")
     messages = state["messages"]
-    question = messages[0].content
-    #last_message = messages[-1]
-    #docs = last_message.content
+    #question = messages[0].content
+    question = state['question']
     docs = state['documents']
     
 

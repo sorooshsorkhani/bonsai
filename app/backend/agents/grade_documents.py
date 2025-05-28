@@ -74,9 +74,8 @@ def grade_relevance(state) -> Literal["grade_sufficiency", "greetings"]:
     relevance_chain = relevance_prompt | llm_with_relevance
 
     messages = state["messages"]
-    query = messages[0].content
-    #last_message = messages[-1]
-    #docs = last_message.content
+    #query = messages[0].content
+    query = state['question']
     docs = state['documents']
 
     scored_result = relevance_chain.invoke({"query": query, "context": format_docs(docs)})
@@ -159,9 +158,8 @@ def grade_sufficiency(state) -> Literal["rag", "generate_queries"]:
     sufficiency_chain = sufficiency_prompt | llm_with_sufficiency
 
     messages = state["messages"]
-    query = messages[0].content
-    #last_message = messages[-1]
-    #docs = last_message.content
+    #query = messages[0].content
+    query = state['question']
     docs = state['documents']
 
     scored_result = sufficiency_chain.invoke({"query": query, "context": format_docs(docs)})
